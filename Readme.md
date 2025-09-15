@@ -178,3 +178,11 @@ select * from person limit 10;
 
 
 
+
+## Persistence de données et volumes externes
+
+```
+docker exec -it mariadbmovie mariadb -u movie -p dbmovie
+
+insert into movie (title, year) values ('West Side Story du Future', 2099);
+select title, year from movie where year = 2099;
