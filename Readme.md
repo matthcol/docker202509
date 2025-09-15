@@ -99,6 +99,12 @@ docker pull postgres:17-alpine
 docker pull postgres:13
 ```
 
+### Supprimer une image
+```
+docker image rm postgres:latest
+docker image rm postgres:17-alpine
+```
+
 ### Exercice
 Créer 2 bases PostgreSQL: 
 - 1 en version 17: dbmovie (user movie)
@@ -126,8 +132,49 @@ docker exec -it pgdbmovie cat /var/lib/postgresql/data/PG_VERSION
 docker exec -it pgdbathle cat /var/lib/postgresql/data/PG_VERSION
 ```
 
+## Renommage
+```
+docker rename pgdbathle pgdbathletics
+```
 
+## Partage de fichiers hôte <-> conteneur
 
+### Au démarrage : montage
+
+```
+docker rm -f pgdbmovie 
+docker ps -a
+docker run --name pgdbmovie `
+    -e POSTGRES_PASSWORD=mysecretpassword `
+    -e POSTGRES_DB=dbmovie `
+    -e POSTGRES_USER=movie `
+    -v "$(pwd)/sql-dbmovie-pg:/docker-entrypoint-initdb.d" `
+    -d postgres:17
+
+docker ps
+docker logs pgdbmovie
+docker exec -it pgdbmovie ls /docker-entrypoint-initdb.d
+docker exec -it pgdbmovie psql -U movie -d dbmovie
+docker exec -it pgdbmovie psql -U movie -d dbmovie -c "\d"
+docker exec -it pgdbmovie psql -U movie -d dbmovie -c "select * from person"
+```
+
+## Exercice
+Créer une base de données MariaDB avec les scripts: sql-dbmovie-mariadb
+
+```
+.\docker-dbmovie-mariadb.ps1
+
+docker exec -it mariadbmovie bash
+
+mariadb -u root -p
+show databases;
+select host,user from mysql.user;
+
+mariadb -u movie -p dbmovie
+show tables;
+select * from person limit 10;
+```
 
 
 
