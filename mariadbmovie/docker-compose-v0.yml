@@ -1,0 +1,14 @@
+services:
+  db:
+    image: mariadb:12
+    environment:
+      MARIADB_ROOT_PASSWORD: mysuperpassword
+      MARIADB_USER: movie
+      MARIADB_PASSWORD: mysuperpassword
+      MARIADB_DATABASE: dbmovie
+    volumes:
+      - ./sql-dbmovie-mariadb:/docker-entrypoint-initdb.d
+      - mariadbmovie-data:/var/lib/mysql
+
+volumes:
+  mariadbmovie-data:

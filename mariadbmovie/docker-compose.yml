@@ -1,14 +1,17 @@
 services:
   db:
-    image: mariadb:12
+    image: mariadb:${DB_TAG}
+    restart: always
     environment:
-      MARIADB_ROOT_PASSWORD: mysuperpassword
-      MARIADB_USER: movie
-      MARIADB_PASSWORD: mysuperpassword
-      MARIADB_DATABASE: dbmovie
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+      MARIADB_DATABASE: ${DB_DATABASE}
     volumes:
-      - ./sql-dbmovie-mariadb:/docker-entrypoint-initdb.d
-      - mariadbmovie-data:/var/lib/mysql
+      - ${DB_SQL_INIT_DIR}:/docker-entrypoint-initdb.d
+      - dbstorage:/var/lib/mysql
 
 volumes:
-  mariadbmovie-data:
+  dbstorage:
+    # NB: nom global
+    name: ${DB_STORAGE}
