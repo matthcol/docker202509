@@ -180,9 +180,34 @@ select * from person limit 10;
 
 
 ## Persistence de données et volumes externes
-
+Ajouter de la donnée:
 ```
 docker exec -it mariadbmovie mariadb -u movie -p dbmovie
 
 insert into movie (title, year) values ('West Side Story du Future', 2099);
 select title, year from movie where year = 2099;
+```
+
+Supprimer et recréer le conteneur:
+```
+docker stop mariadbmovie
+docker rm mariadbmovie
+.\docker-dbmovie-mariadb.ps1
+```
+
+Check data:
+```
+docker exec -it mariadbmovie mariadb -u movie -p dbmovie
+select title, year from movie where year = 2099;
+```
+
+Verdict: on a perdu la data => Recréer le conteneur en passant par un volume externe.
+
+
+TODO: 
+
+
+```
+docker run -it --rm -v mariadbmovie-data:/data:ro debian:12-slim bash
+```
+
