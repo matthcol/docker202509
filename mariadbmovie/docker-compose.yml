@@ -10,6 +10,8 @@ services:
     volumes:
       - ${DB_SQL_INIT_DIR}:/docker-entrypoint-initdb.d
       - dbstorage:/var/lib/mysql
+    ports:
+      - ${DB_PORT:-3306}:3306
 
 volumes:
   dbstorage:

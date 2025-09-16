@@ -52,3 +52,23 @@ Nom de fichier par défaut: .env
 
 NB: pour variabiliser le nom du volume, utiliser la clé `name`.
 
+## Exercice:
+Réutiliser le fichier docker-compose.yml pour créer une 2e base sur l'athlé. 
+
+Tip: utiliser les options suivantes:
+```
+ -p : nom de la composition = nom du projet
+ --env-file : fichier de variables si différent de .env
+```
+
+```
+docker compose -p mariadbathle --env-file .env-athle up -d
+docker compose -p mariadbathle ps -a
+docker compose -p mariadbathle logs db
+docker compose -p mariadbathle exec -it db mariadb -u athle -p  -e "select * from event" dbathle
+```
+
+
+NB: Bonne pratique => Recopier le Yaml dans un nouveau répertoire avec le nom de la composition
+et un .env
+
