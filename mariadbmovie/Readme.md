@@ -72,3 +72,22 @@ docker compose -p mariadbathle exec -it db mariadb -u athle -p  -e "select * fro
 NB: Bonne pratique => Recopier le Yaml dans un nouveau répertoire avec le nom de la composition
 et un .env
 
+## Ajout de l'api
+Description de l'API dans un 2e Yaml: docker-compose-api.yml
+
+```
+docker compose -f docker-compose.yml -f docker-compose-api.yml up -d
+```
+
+Voir la composition complète (fusion, override des Yaml + résolution des variables)
+```
+docker compose -f docker-compose.yml -f docker-compose-api.yml config
+```
+
+## Stratégie de (re)démarrage et dépendances entre services:
+
+https://docs.docker.com/engine/containers/start-containers-automatically/
+
+Valeurs de restart: no, always, on-failure[:max-retries], unless-stopped
+
+Dépendances: clé depends_on + healthcheck

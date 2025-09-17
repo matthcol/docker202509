@@ -1,7 +1,7 @@
 services:
   db:
     image: mariadb:${DB_TAG}
-    restart: always
+    restart: unless-stopped
     environment:
       MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MARIADB_USER: ${DB_USER}
@@ -12,10 +12,18 @@ services:
       - dbstorage:/var/lib/mysql
     ports:
       - ${DB_PORT:-3306}:3306
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 3s
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   admindb:
     image: adminer:${ADMINDB_TAG:-latest}
-    restart: always
+    depends_on: 
+      - db
+    restart: unless-stopped
     ports:
       - ${ADMINDB_PORT}:8080
 

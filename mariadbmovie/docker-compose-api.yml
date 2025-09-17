@@ -1,0 +1,13 @@
+services:
+  api:
+    image: movieapi:${API_TAG}
+    depends_on: 
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    ports:
+      - ${API_PORT}:8000
+    environment:
+      DATABASE_URL: mysql+pymysql://${DB_USER}:${DB_PASSWORD}@db/${DB_DATABASE}
+      DDL_AUTO: none
+      DB_DRIVER: pymysql

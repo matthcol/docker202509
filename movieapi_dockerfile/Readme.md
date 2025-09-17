@@ -89,11 +89,19 @@ docker run -d `
 Avec PostgreSQL:
 ```
 docker run -d `
-    --name movieapi `
-    -p 8000:8000 `
-    --network pgmovie_default `
-    -e DATABASE_URL=postgresql+psycopg2://movie:mysuperpassword@db/dbmovie `
+    --name movieapi-pg `
+    -p 8002:8000 `
+    -e DATABASE_URL=postgresql+psycopg2://movie:mysecretpassword@pgdbmovie/dbmovie `
     -e DDL_AUTO=none `
     -e DB_DRIVER=psycopg2-binary `
+    --network moviepg_default `
     movieapi:0.4
+```
+
+## Connecter un conteneur à un réseau à postériori
+
+```
+docker network create moviepg_ext
+docker network connect moviepg_ext movieapi-pg
+docker inspect movieapi-pg
 ```
