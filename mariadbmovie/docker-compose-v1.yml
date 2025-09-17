@@ -13,15 +13,6 @@ services:
     ports:
       - ${DB_PORT:-3306}:3306
 
-  admindb:
-    image: adminer:${ADMINDB_TAG:-latest}
-    restart: always
-    ports:
-      - ${ADMINDB_PORT}:8080
-
-  # api:
-  #   TODO: api python
-
 volumes:
   dbstorage:
     # NB: nom global
