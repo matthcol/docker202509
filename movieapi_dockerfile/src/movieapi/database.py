@@ -5,7 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 
-DATABASE_URL = os.environ.get("DB_URL", "sqlite:///./test.db")
+DATABASE_URL = os.environ.get("DATABASE_URL", "sqlite:///./test.db")
 DDL_AUTO = os.environ.get("DDL_AUTO", "none").lower()
 
 engine = create_engine(
